@@ -1,19 +1,10 @@
 from fastapi import FastAPI
-from app.services.retrieval_service import retrieve_relevant_news
-from app.services.summarizer_service import summarize_news
+from app.routes.news import router as news_router
 
 app = FastAPI()
 
+app.include_router(news_router)
+
 @app.get("/")
 def home():
-    return {"message": "News RAG System Running"}
-
-@app.get("/news")
-def get_news(topic: str):
-    docs = retrieve_relevant_news(topic)
-    summary = summarize_news(docs)
-
-    return {
-        "topic": topic,
-        "summary": summary
-    }
+    return {"message": "NovaNews RAG System Running"}
