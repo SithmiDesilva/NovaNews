@@ -1,8 +1,11 @@
 import chromadb
 from app.services.embedding_service import generate_embedding
 
-client = chromadb.Client()
-collection = client.get_or_create_collection("news_articles")
+client = chromadb.PersistentClient(path="./chroma_db")
+
+collection = client.get_or_create_collection(
+    name="news_articles"
+)
 
 def store_article(article_id, text):
     embedding = generate_embedding(text)
