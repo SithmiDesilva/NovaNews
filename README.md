@@ -1,136 +1,165 @@
-# 📰 NovaNews 
+# 📰 NovaNews — Real-Time News Aggregator & Summarization Platform using RAG
 
-NovaNews is a **Real-Time News Aggregation and Summarization System** built using **Retrieval-Augmented Generation (RAG)**.
-The system continuously collects live news from trusted RSS feeds, stores them in a **vector database**, retrieves the most relevant articles based on user interests, and generates concise summaries using a Large Language Model (LLM).
+NovaNews is a **real-time news aggregation and intelligent summarization platform** built using **Retrieval-Augmented Generation (RAG)**.
 
-This project demonstrates a **production-style RAG pipeline** with real-time ingestion, semantic retrieval, and intelligent summarization.
+The system continuously fetches live news from trusted RSS feeds and APIs, stores articles in a **vector database**, retrieves the most relevant content based on user-selected categories, and generates **context-aware summaries** using a Large Language Model (LLM).
+
+It also includes a **modern React dashboard frontend** with category filtering, clickable article cards, source links, and automatic refresh.
 
 ---
 
 ## 🚀 Project Overview
 
-The goal of NovaNews is to solve the problem of **information overload in live news consumption**.
+In today’s digital world, users are overwhelmed by massive volumes of news content across multiple sources.
 
-Instead of manually browsing multiple websites, users can simply enter a topic such as:
+NovaNews solves this problem by providing:
+
+* **real-time news ingestion**
+* **semantic search**
+* **AI-generated summaries**
+* **category-based filtering**
+* **live updates every 5 minutes**
+
+Users can select topics such as:
 
 * Artificial Intelligence
-* Finance
+* Technology
 * Sports
-* Criminal Investigations
+* Finance
 * Politics
+* Criminal Investigations
 
-The system will:
+The system retrieves the most relevant articles and presents:
 
-1. Retrieve the latest relevant news articles
-2. Semantically search them using embeddings
-3. Generate an easy-to-read summary
-4. Return the result instantly via API
-
-This makes news consumption faster, personalized, and context-aware.
+1. latest headlines
+2. article snippets
+3. source links
+4. overall AI-generated summary
 
 ---
 
 ## 🎯 Key Features
 
-* **Real-time news ingestion** from live RSS feeds
-* **Semantic search** using vector embeddings
-* **Retrieval-Augmented Generation (RAG)**
-* **Topic-based personalized summaries**
-* **FastAPI backend API**
-* **ChromaDB vector storage**
-* **LLM-powered summarization**
-* Scalable and modular project structure
+### 📰 Live News Aggregation
+
+Fetches latest news from live RSS feeds and news APIs.
+
+### 🧠 Retrieval-Augmented Generation (RAG)
+
+Uses vector retrieval + LLM summarization.
+
+### 🔍 Semantic Search
+
+Uses embeddings for meaning-based retrieval instead of keyword matching.
+
+### 📚 Vector Database
+
+Stores news embeddings in **ChromaDB**.
+
+### 💻 Interactive Frontend Dashboard
+
+Built with **React + Vite**.
+
+### 🔄 Auto Refresh
+
+Automatically updates the database every **5 minutes**.
+
+### 🔗 Clickable Source Links
+
+Users can open the full original article.
+
+### 📂 Category Dropdown Filtering
+
+Instant topic-based news exploration.
 
 ---
 
 ## 🏗️ System Architecture
 
 ```text
-                ┌──────────────────────┐
-                │  Live News Sources    │
-                │ (BBC, CNN, Tech, etc) │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │   RSS Feed Scraper    │
-                │   (feedparser)        │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │ Text Preprocessing    │
-                │ Chunking + Cleaning   │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │ Embedding Generator   │
-                │ SentenceTransformer   │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │  ChromaDB Vector DB   │
-                │ Store embeddings      │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │ User Query / Topic    │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │ Semantic Retriever    │
-                │ Similarity Search     │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │ LLM Summarizer        │
-                │ GPT / OpenAI API      │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │ Final News Summary    │
-                └──────────────────────┘
+                         ┌─────────────────────────┐
+                         │   Live News APIs / RSS  │
+                         │   BBC, CNN, Tech Feeds  │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │   News Scraper Service   │
+                         │   feedparser / APIs      │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │ Text Cleaning + Parsing  │
+                         │ title + snippet + link   │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │ Embedding Generator      │
+                         │ SentenceTransformer      │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │ ChromaDB Vector Store    │
+                         │ documents + metadata     │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │ Semantic Retrieval       │
+                         │ top-k similarity search  │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │ LLM Summarization        │
+                         │ OpenAI GPT               │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │ React Dashboard UI       │
+                         │ headlines + summary      │
+                         └─────────────────────────┘
 ```
 
 ---
 
-## 🧠 How the RAG Pipeline Works
+## 🧠 RAG Workflow
 
-NovaNews follows the standard **RAG workflow**:
+NovaNews follows a standard Retrieval-Augmented Generation pipeline.
 
 ### Step 1 — Retrieval
 
-Relevant articles are retrieved from the vector database using semantic similarity search.
+Relevant news articles are retrieved from ChromaDB using semantic similarity search.
 
 ### Step 2 — Augmentation
 
-The retrieved articles are passed as context to the LLM.
+Retrieved documents are passed as context to the LLM.
 
 ### Step 3 — Generation
 
-The LLM generates a concise summary using the retrieved context.
+The LLM generates an overall summary using only the retrieved context.
 
-This improves factual grounding and ensures the response is based on live news data.
+This ensures grounded, context-based responses.
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Backend Framework
+### Backend
 
 * **FastAPI**
 * **Uvicorn**
+* **APScheduler**
 
-### Data Ingestion
+### Frontend
 
-* **feedparser**
-* RSS XML feeds
+* **React**
+* **Vite**
+* **JavaScript**
 
 ### NLP / Embeddings
 
@@ -141,10 +170,14 @@ This improves factual grounding and ensures the response is based on live news d
 
 * **ChromaDB**
 
-### LLM / Summarization
+### LLM
 
-* **OpenAI API**
-* GPT models
+* **OpenAI GPT API**
+
+### News Sources
+
+* **RSS feeds**
+* **News APIs**
 
 ### Language
 
@@ -169,20 +202,26 @@ NovaNews/
 │   │   ├── embedding_service.py
 │   │   ├── vector_service.py
 │   │   ├── retrieval_service.py
-│   │   └── summarizer_service.py
+│   │   ├── summarizer_service.py
+│   │   └── news_updater_service.py
 │   │
 │   └── utils/
-│       └── text_chunker.py
 │
 ├── chroma_db/
+│
+├── novanews-frontend/
+│   ├── src/
+│   │   └── App.jsx
+│   └── package.json
+│
 ├── requirements.txt
-├── .env
-└── README.md
+├── README.md
+└── .env
 ```
 
 ---
 
-## ⚙️ Installation & Setup
+## ⚙️ Installation
 
 ### Clone Repository
 
@@ -199,7 +238,7 @@ cd NovaNews
 python -m venv .venv
 ```
 
-Activate environment:
+Activate:
 
 ```bash
 .venv\Scripts\activate
@@ -207,7 +246,7 @@ Activate environment:
 
 ---
 
-### Install Dependencies
+### Install Backend Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -215,23 +254,24 @@ pip install -r requirements.txt
 
 ---
 
-### Environment Variables
+### Install Frontend Dependencies
 
-Create `.env`
-
-```text
-OPENAI_API_KEY=your_api_key_here
+```bash
+cd novanews-frontend
+npm install
 ```
 
 ---
 
-## ▶️ Running the Project
+## ▶️ Running the System
+
+### Start Backend
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Server runs at:
+Runs on:
 
 ```text
 http://127.0.0.1:8000
@@ -239,93 +279,124 @@ http://127.0.0.1:8000
 
 ---
 
-## 📡 API Endpoints
+### Start Frontend
 
-### Root Health Check
-
-```http
-GET /
+```bash
+cd novanews-frontend
+npm run dev
 ```
 
-Response:
+Runs on:
 
-```json
-{
-  "message": "NovaNews RAG System Running"
-}
+```text
+http://localhost:5173
 ```
 
 ---
 
-### Topic-Based News Summary
+## 🔄 Automatic Live News Updates
+
+NovaNews automatically fetches and stores fresh news every **5 minutes** using APScheduler.
+
+This includes:
+
+* fetching latest articles
+* embedding generation
+* vector storage
+* duplicate prevention
+
+No manual database population is required.
+
+---
+
+## 🌐 Frontend Features
+
+### Category Dropdown
+
+Select news topics instantly.
+
+### Article Cards
+
+Displays clean clickable news cards.
+
+### Source Links
+
+Open original news articles directly.
+
+### Overall Summary
+
+AI-generated summary of displayed articles.
+
+### Auto Refresh
+
+Frontend and backend both support live refresh.
+
+---
+
+## 📡 API Endpoint
+
+### Get News by Topic
 
 ```http
 GET /news?topic=AI
 ```
 
-Example:
-
-```http
-GET /news?topic=criminal investigations
-```
-
 Response:
 
 ```json
 {
-  "topic": "criminal investigations",
+  "topic": "AI",
+  "articles": [
+    {
+      "headline": "...",
+      "snippet": "...",
+      "source_link": "..."
+    }
+  ],
   "summary": "..."
 }
 ```
 
 ---
 
-## 💡 Example Use Cases
-
-* Personalized daily news digest
-* Real-time event monitoring
-* Topic-based intelligence dashboards
-* Crime and legal news tracking
-* Financial market updates
-* AI / tech trend monitoring
-
----
-
 ## 🚀 Future Enhancements
 
-* Frontend dashboard using React / Next.js
-* User authentication
-* Personalized topic subscriptions
-* Breaking news alerts
-* Sentiment analysis
-* News credibility ranking
-* Duplicate article detection
-* Real-time WebSocket updates
+* user authentication
+* personalized saved topics
+* sentiment analysis
+* breaking news alerts
+* thumbnail images
+* dark mode UI
+* trending topics section
+* news credibility scoring
+* multilingual summarization
 
 ---
 
 ## 🎓 Learning Outcomes
 
-This project demonstrates practical understanding of:
+This project demonstrates strong understanding of:
 
 * Retrieval-Augmented Generation (RAG)
-* Semantic search
-* Vector databases
-* Embeddings
-* LLM integration
-* FastAPI backend development
-* Real-time data pipelines
+* semantic search
+* vector databases
+* embedding pipelines
+* real-time data ingestion
+* backend API engineering
+* frontend dashboard development
+* production scheduling systems
 
 ---
 
-## 📌 Project Status
+## 📌 Status
 
-✅ Backend completed
-✅ RAG pipeline working
-🚀 Frontend dashboard planned
+✅ Fully functional backend
+✅ Live frontend dashboard
+✅ Auto-updating vector database
+🚀 Production-ready architecture
 
 ---
 
 ## 👩‍💻 Author
 
-Developed as an AI and Data Science project to demonstrate real-time RAG system architecture and deployment-ready backend engineering.
+Developed as a full-stack AI + Data Science project to demonstrate real-time RAG system design, semantic retrieval, and live dashboard engineering.
