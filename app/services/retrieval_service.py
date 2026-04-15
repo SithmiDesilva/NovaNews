@@ -2,6 +2,8 @@ from app.services.vector_service import collection
 from app.services.embedding_service import generate_embedding
 
 def retrieve_relevant_news(query, top_k=5):
+    print(collection.count())
+
     query_embedding = generate_embedding(query)
 
     results = collection.query(
