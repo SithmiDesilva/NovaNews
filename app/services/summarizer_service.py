@@ -4,20 +4,30 @@ from app.config import OPENAI_API_KEY
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 def summarize_news(documents):
-    context = "\n".join(documents)
+    context = "\n\n".join(documents)
 
     prompt = f"""
-    Summarize the following latest news articles:
+You are a news summarization assistant.
 
-    {context}
+Summarize ONLY the following retrieved news articles.
+Do NOT mention inability to access the internet.
+Do NOT mention external access limitations.
 
-    Provide concise bullet points.
-    """
+Retrieved articles:
+{context}
+
+Provide:
+1. A short overall summary
+2. 3 key bullet points
+"""
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "user", "content": prompt}
+            {
+                "role": "user",
+                "content": prompt
+            }
         ]
     )
 
